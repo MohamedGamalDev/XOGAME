@@ -7,13 +7,21 @@ class GameBoardScreen extends StatefulWidget {
   State<GameBoardScreen> createState() => _GameBoardScreenState();
 }
 class _GameBoardScreenState extends State<GameBoardScreen> {
-  void OnClick()
-  {}
-  List<String>values=[
-    'x','o','x',
-    'o','x','o',
-    '','','x',
-  ];
+  int  currentPlayer=0;
+  void onClick(int index) {
+    if (values[index] == '') {
+      setState(() {
+        if (currentPlayer == 0) {
+          values[index] = 'x';
+          currentPlayer = 10; // Switch to player O
+        } else {
+          values[index] = 'o';
+          currentPlayer = 0; // Switch to player X
+        }
+      });
+    }
+  }
+  List<String>values=List.generate(9, (index) => '');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +52,7 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
               (physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,crossAxisSpacing: 4,mainAxisSpacing: 4,mainAxisExtent:MediaQuery.of(context).size.height *.283,
-              ), itemBuilder:(_, index) => ActionButton(value:values[index],action:OnClick),itemCount: values.length, ))
+              ), itemBuilder:(_, index) => ActionButton(value:values[index],action:() => onClick(index)),itemCount: values.length, ))
             // ActionButton(),
           ],
         ),
@@ -52,3 +60,20 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
     );
   }
 }
+// if (values[index]=='') {
+//   setState(() {
+//     values[index] = 'x';
+//   });
+// }
+// else if (values[index-1]=='x')
+// {
+//   setState(() {
+//     values[index] = 'o';
+//   });
+// }
+// else if (values[index-1]=='o')
+// {
+//   setState(() {
+//     values[index] = 'x';
+//   });
+// }
