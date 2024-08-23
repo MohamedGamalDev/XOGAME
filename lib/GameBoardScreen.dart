@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_xo/Button.dart';
-import 'Button.dart';
+import 'package:game_xo/Reload.dart';
 class GameBoardScreen extends StatefulWidget {
   static const String route='GameBoardScreen';
   @override
@@ -9,27 +9,32 @@ class GameBoardScreen extends StatefulWidget {
 class _GameBoardScreenState extends State<GameBoardScreen> {
   int x=0;
   int o=0;
+  void returnZero() {
+    setState(() {
+      x = 0;
+      o = 0;
+      values = List.generate(9, (index) => ''); // إعادة تعيين اللوحة
+    });
+  }
   int  currentPlayer=1;
   void onClick(int index) {
     if (values[index] == '') {
       setState(() {
         if (currentPlayer % 2 != 0) {
           values[index] = 'x';
-          if (whoWin('x')) {
+          whoWin('x');
             // Player X wins, reset the game or take necessary actions
-          }
+
           currentPlayer++;
         } else {
           values[index] = 'o';
-          if (whoWin('o')) {
+          whoWin('o');
             // Player O wins, reset the game or take necessary actions
-          }
           currentPlayer++;
         }
       });
     }
   }
-
   bool whoWin(String sample) {
     if ((values[0] == sample && values[1] == sample && values[2] == sample) || // الصف الأول
         (values[3] == sample && values[4] == sample && values[5] == sample) || // الصف الثاني
@@ -67,52 +72,39 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(height: 10,),
             SizedBox(
-              height: MediaQuery.of(context).size.height *.1,
+              height: MediaQuery.of(context).size.height *.08,
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     children: [
-                      Text('Player 1',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text('Player 1 ( X )',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                       Text('$x',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Column(
                     children: [
-                      Text('Player 2',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text('Player 2 ( O )',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                       Text('$o',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
               ),
             ),
+            Reload(Back:returnZero),
+            SizedBox(height: 10,),
             Expanded(child:
             GridView.builder
               (physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,crossAxisSpacing: 4,mainAxisSpacing: 4,mainAxisExtent:MediaQuery.of(context).size.height *.283,
-              ), itemBuilder:(_, index) => ActionButton(value:values[index],action:() => onClick(index)),itemCount: values.length, ))
-            // ActionButton(),
+                crossAxisCount: 3,crossAxisSpacing: 4,mainAxisSpacing: 4,mainAxisExtent:MediaQuery.of(context).size.height *.27,
+              ), itemBuilder:(_, index) => ActionButton(value:values[index],action:() => onClick(index)),itemCount: values.length,
+            )
+            )
           ],
         ),
       ),
     );
   }
 }
-// if (values[index]=='') {
-//   setState(() {
-//     values[index] = 'x';
-//   });
-// }
-// else if (values[index-1]=='x')
-// {
-//   setState(() {
-//     values[index] = 'o';
-//   });
-// }
-// else if (values[index-1]=='o')
-// {
-//   setState(() {
-//     values[index] = 'x';
-//   });
-// }
