@@ -7,20 +7,59 @@ class GameBoardScreen extends StatefulWidget {
   State<GameBoardScreen> createState() => _GameBoardScreenState();
 }
 class _GameBoardScreenState extends State<GameBoardScreen> {
-  int  currentPlayer=0;
+  int x=0;
+  int o=0;
+  int  currentPlayer=1;
   void onClick(int index) {
     if (values[index] == '') {
       setState(() {
-        if (currentPlayer == 0) {
+        if (currentPlayer % 2 != 0) {
           values[index] = 'x';
-          currentPlayer = 10; // Switch to player O
+          if (whoWin('x')) {
+            // Player X wins, reset the game or take necessary actions
+          }
+          currentPlayer++;
         } else {
           values[index] = 'o';
-          currentPlayer = 0; // Switch to player X
+          if (whoWin('o')) {
+            // Player O wins, reset the game or take necessary actions
+          }
+          currentPlayer++;
         }
       });
     }
   }
+
+  bool whoWin(String sample) {
+    if ((values[0] == sample && values[1] == sample && values[2] == sample) || // الصف الأول
+        (values[3] == sample && values[4] == sample && values[5] == sample) || // الصف الثاني
+        (values[6] == sample && values[7] == sample && values[8] == sample) || // الصف الثالث
+        (values[0] == sample && values[3] == sample && values[6] == sample) || // العمود الأول
+        (values[1] == sample && values[4] == sample && values[7] == sample) || // العمود الثاني
+        (values[2] == sample && values[5] == sample && values[8] == sample) || // العمود الثالث
+        (values[0] == sample && values[4] == sample && values[8] == sample) || // القطر من اليسار إلى اليمين
+        (values[2] == sample && values[4] == sample && values[6] == sample)) { // القطر من اليمين إلى اليسار
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Player $sample wins!')));
+      if (sample=='x')
+        {
+          x++;
+        }
+      if (sample=='o')
+      {
+        o++;
+      }
+      setState(() {
+     for(int i=0;i<values.length;i++)
+       {
+         values[i]='';
+       }
+      });
+      return true;
+
+    }
+    return false;
+  }
+
   List<String>values=List.generate(9, (index) => '');
   @override
   Widget build(BuildContext context) {
@@ -35,13 +74,13 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
                   Column(
                     children: [
                       Text('Player 1',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
-                      Text('0',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text('$x',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Column(
                     children: [
                       Text('Player 2',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
-                      Text('0',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+                      Text('$o',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
