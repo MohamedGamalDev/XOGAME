@@ -68,7 +68,23 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
       });
       return true;
     }
-    return false;
+    else if
+    ((values[0]=='x'||values[0]=='o')&&
+    ( values[1]=='x'||values[1]=='o')&&
+    (values[2]=='x'||values[2]=='o')&&
+    (values[3]=='x'||values[3]=='o')&&
+    (values[4]=='x'||values[4]=='o')&&
+    (values[5]=='x'||values[5]=='o')&&
+    (values[6]=='x'||values[6]=='o')&&
+    (values[7]=='x'||values[7]=='o')&&
+    (values[8]=='x'||values[8]=='o'))
+      {
+        setState(() {
+          values = List.generate(9, (index) => '');
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('The game ended in a draw, with no winner emerging.')));
+        });
+      }
+        return false;
   }
 
   List<String> values = List.generate(9, (index) => '');
