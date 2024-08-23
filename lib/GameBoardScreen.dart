@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_xo/Button.dart';
 import 'package:game_xo/Reload.dart';
+import 'loginPage.dart';
 
 class GameBoardScreen extends StatefulWidget {
   static const String route = 'GameBoardScreen';
@@ -91,6 +92,7 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    data args=ModalRoute.of(context)!.settings.arguments as data;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -103,13 +105,13 @@ class _GameBoardScreenState extends State<GameBoardScreen> {
                 children: [
                   Column(
                     children: [
-                      Text('Player 1 ( X )', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text(args.player1, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Text('$x', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Column(
                     children: [
-                      Text('Player 2 ( O )', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text(args.player2, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Text('$o', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                     ],
                   ),

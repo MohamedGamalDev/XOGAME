@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_xo/loginPage.dart';
 import 'Button.dart';
 import 'GameBoardScreen.dart';
 
@@ -11,11 +12,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      routes:
+      {
+        GameBoardScreen.route:(context) => GameBoardScreen(),
+        TxT.route:(context) => TxT(),
+      },
       title: 'Game XO',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GameBoardScreen(),
+      initialRoute: TxT.route,
     );
   }
 }
